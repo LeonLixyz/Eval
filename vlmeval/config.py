@@ -2,7 +2,7 @@ from vlmeval.vlm import *
 from vlmeval.api import *
 from functools import partial
 import os
-
+from vlmeval.vlm.anole import AnoleVLM
 PandaGPT_ROOT = None
 MiniGPT4_ROOT = None
 TransCore_ROOT = None
@@ -1422,7 +1422,28 @@ internvl_series = {}
 for group in internvl_groups:
     internvl_series.update(group)
 
-supported_VLM = {}
+supported_VLM = {
+    'anole': partial(
+        AnoleVLM, 
+        model_path='/home/jovyan/workspace/thinking-with-generated-images/Anole-7b',
+        model_name='Anole-7b',  # Add this
+        mode='general',
+        cfg_type='normal',
+        temperature=0.7,
+        max_length=12288
+    ),
+    'anole_16500': partial(
+        AnoleVLM, 
+        model_path='/home/jovyan/workspace/thinking-with-generated-images/anole-7b-hf-2025-trained-ckpt-16500',
+        model_name='anole-16500',  # Add this
+        mode='general',
+        cfg_type='normal',
+        temperature=0.7,
+        max_length=12288
+    ),
+
+
+}
 
 model_groups = [
     ungrouped, o1_apis, api_models, xtuner_series, qwen_series, llava_series, granite_vision_series,

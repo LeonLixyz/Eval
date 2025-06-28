@@ -13,7 +13,7 @@ nltk
 numpy
 omegaconf
 openai
-opencv-python>=4.7.0.72
+opencv-python-headless
 openpyxl
 pandas
 pillow
@@ -30,10 +30,7 @@ tabulate
 tiktoken
 timeout-decorator
 timm
-torch
-torchvision
 tqdm
-transformers
 typing_extensions
 validators
 xlsxwriter
