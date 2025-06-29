@@ -118,7 +118,9 @@ class AnoleVLM(BaseModel):
         else:
             self.model_name = model_name
 
-        self.output_dir = os.path.join(self.output_dir, self.model_name)
+        # Store the base output directory
+        self.base_output_dir = output_dir
+        self.output_dir = output_dir
         os.makedirs(self.output_dir, exist_ok=True)
     
     def __del__(self):
@@ -375,6 +377,12 @@ class AnoleVLM(BaseModel):
         """
         # Parse input
         images, text_prompt = self._parse_message(message)
+        
+        # Reset output directory to base and create dataset subfolder if needed
+        self.output_dir = os.path.join(self.base_output_dir, self.model_name)
+        if dataset:
+            self.output_dir = os.path.join(self.output_dir, dataset)
+        os.makedirs(self.output_dir, exist_ok=True)
         
         # Prepare input based on mode
         if self.mode == "image_critique":

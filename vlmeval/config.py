@@ -1429,8 +1429,8 @@ supported_VLM = {
         model_name='Anole-7b',  # Add this
         mode='general',
         cfg_type='normal',
-        temperature=0.7,
-        max_length=12288
+        temperature=1.0,
+        max_length=4096
     ),
     'anole_16500': partial(
         AnoleVLM, 
