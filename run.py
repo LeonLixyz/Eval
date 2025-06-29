@@ -314,11 +314,16 @@ def main():
                             else:
                                 prev_result_files = [osp.join(root, result_file_base)]
                             break
-                        elif commit_id in root and len(ls(root)) and root != pred_root:
-                            temp_files = ls(root, match=[dataset_name, '.pkl'])
-                            if len(temp_files):
-                                prev_pkl_file_list.extend(temp_files)
-                                break
+                    
+                    # If no result files found, look for pickle files in any previous directory
+                    if len(prev_result_files) == 0:
+                        for root in prev_pred_roots[::-1]:
+                            if len(ls(root)) and root != pred_root:
+                                temp_files = ls(root, match=[dataset_name, '.pkl'])
+                                if len(temp_files):
+                                    prev_pkl_file_list.extend(temp_files)
+                                    break
+                    
                     if not args.reuse:
                         prev_result_files = []
                         prev_pkl_file_list = []
