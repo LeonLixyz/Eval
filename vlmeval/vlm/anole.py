@@ -396,7 +396,8 @@ class AnoleVLM(BaseModel):
         else:  # general mode
             # Handle input images if provided
             if images:
-                text_prompt = "You are an AI reasoning assistant capable of step-by-step interleaved text and visual chain of thought. Think step by step and use visual aids to enhance your problem-solving. Provide your final conclusion clearly in the format of 'Final Answer: <answer here>'/n/n" + text_prompt
+                if self.model_name != 'anole':
+                    text_prompt = "You are an AI reasoning assistant capable of step-by-step interleaved text and visual chain of thought. Think step by step and use visual aids to enhance your problem-solving. Provide your final conclusion clearly in the format of 'Final Answer: <answer here>'/n/n" + text_prompt
                 inputs = self.processor(text_prompt, images=images, padding=False, 
                                       return_tensors="pt", return_for_text_completion=True)
                 inputs = inputs.to(self.device, dtype=torch.bfloat16)

@@ -3,6 +3,7 @@ from vlmeval.api import *
 from functools import partial
 import os
 from vlmeval.vlm.anole import AnoleVLM
+# from vlmeval.vlm.bagel.bagel import BagelVLM
 PandaGPT_ROOT = None
 MiniGPT4_ROOT = None
 TransCore_ROOT = None
@@ -1438,11 +1439,15 @@ supported_VLM = {
         model_name='anole-16500',  # Add this
         mode='general',
         cfg_type='normal',
-        temperature=0.7,
+        temperature=1.0,
         max_length=12288
     ),
-
-
+    'bagel_zebra': partial(
+        BagelVLM,
+        model_path='/home/jovyan/workspace/bagel/Bagel-Zebra-CoT-ckpt-0000100',
+        model_name='Bagel-Zebra-CoT',
+        mode='general',
+    ),
 }
 
 model_groups = [
