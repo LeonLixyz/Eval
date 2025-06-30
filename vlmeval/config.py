@@ -1442,12 +1442,12 @@ supported_VLM = {
         temperature=1.0,
         max_length=12288
     ),
-    'bagel_zebra': partial(
-        BagelVLM,
-        model_path='/home/jovyan/workspace/bagel/Bagel-Zebra-CoT-ckpt-0000100',
-        model_name='Bagel-Zebra-CoT',
-        mode='general',
-    ),
+    # 'bagel_zebra': partial(
+    #     BagelVLM,
+    #     model_path='/home/jovyan/workspace/bagel/Bagel-Zebra-CoT-ckpt-0000100',
+    #     model_name='Bagel-Zebra-CoT',
+    #     mode='general',
+    # ),
 }
 
 model_groups = [
