@@ -28,9 +28,10 @@ git lfs pull
 
 ### Register Model
 
-Go to `config.py` find supported_VLM (line 1426) and change the model_path to the path of the model.
+Go to `vlm_eval/config.py` find supported_VLM (line 1426) and change the model_path to the path of the model.
 
-
+### Set up .env file
+In the main dir, create a `.env` file for openai api key. See https://github.com/open-compass/VLMEvalKit/blob/main/docs/en/Quickstart.md
 ### Run Eval
 
 ```bash
