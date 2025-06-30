@@ -39,7 +39,7 @@ class AnoleVLM(BaseModel):
         temperature: float = 1.0,
         top_p: float = 0.9,
         max_length: int = 12288,
-        max_images: int = 4,
+        max_images: int = 8,
         output_dir: str = ".",  # Use current directory
         model_name: str = None,
         **kwargs
@@ -394,10 +394,8 @@ class AnoleVLM(BaseModel):
             prompt_tokens = self.processor.tokenizer.encode(full_prompt, add_special_tokens=False) + [8710]
             original_prompt_tokens = self.processor.tokenizer.encode(text_prompt, add_special_tokens=False)
         else:  # general mode
-            # Handle input images if provided
+            text_prompt = "You are an AI reasoning assistant capable of step-by-step interleaved text and visual chain of thought. Think step by step and use visual aids to enhance your problem-solving. Provide your final conclusion clearly in the format of 'Final Answer: <answer here>'/n/n" + text_prompt
             if images:
-                if self.model_name != 'anole':
-                    text_prompt = "You are an AI reasoning assistant capable of step-by-step interleaved text and visual chain of thought. Think step by step and use visual aids to enhance your problem-solving. Provide your final conclusion clearly in the format of 'Final Answer: <answer here>'/n/n" + text_prompt
                 inputs = self.processor(text_prompt, images=images, padding=False, 
                                       return_tensors="pt", return_for_text_completion=True)
                 inputs = inputs.to(self.device, dtype=torch.bfloat16)
@@ -494,16 +492,14 @@ class AnoleVLM(BaseModel):
         folder_name = self._sanitize_filename(text_prompt)
         self._save_to_folder(folder_name, text_prompt, images, response_text, response_tokens)
         
-        # Extract final answer if present
         # response_text = self._extract_final_answer(response_text)
         
         return response_text
     
-    def use_custom_prompt(self, dataset: str) -> bool:
-        """Check if custom prompt should be used for dataset"""
-        # You can add specific datasets that need custom prompts
-        custom_prompt_datasets = ['MMBench', 'MathVista', 'ScienceQA', 'MMVet', 'MathVerse']
-        return dataset in custom_prompt_datasets
+    # def use_custom_prompt(self, dataset: str) -> bool:
+    #     """Check if custom prompt should be used for dataset"""
+    #     custom_prompt_datasets = ['MMBench', 'MathVista', 'ScienceQA', 'MMVet', 'MathVerse']
+    #     return dataset in custom_prompt_datasets
     
     def build_prompt(self, line: Dict[str, Any], dataset: str = None) -> List[Union[str, Dict[str, str]]]:
         """Build custom prompt for specific datasets"""
@@ -514,9 +510,3 @@ class AnoleVLM(BaseModel):
         
         return [{'type': 'image', 'value': image}, {'type': 'text', 'value': question}]
 
-
-# Register the model in vlmeval/config.py
-# Add this to the supported_VLM dictionary:
-# 'chameleon_interleaved': partial(ChameleonVLM, model_path='path/to/model'),
-# 'chameleon_critique': partial(ChameleonVLM, model_path='path/to/model', mode='image_critique'),
-# 'chameleon_objects': partial(ChameleonVLM, model_path='path/to/model', mode='object_thoughts'),
