@@ -13,6 +13,18 @@ if you run into flash attention error, try to downgrade torch to 2.5.1 and torch
 pip uninstall torch torchvision 
 pip install torch==2.5.1 torchvision==0.20.1 
 ```
+### Download models
+
+download original anole model
+```bash
+huggingface-cli download --resume-download GAIR/Anole-7b --local-dir Anole-7b --local-dir-use-symlinks False
+```
+
+downlaod our checkpoints
+```bash
+git clone https://huggingface.co/vlm-reasoning-cot/anole-7b-hf-2025-trained-ckpt-16500
+git lfs pull
+```
 
 ### Register Model
 
